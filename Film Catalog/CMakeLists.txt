@@ -24,6 +24,10 @@ set(HEADERS_FILES
     include/dbprovider.h
     include/UserProvider.h
     include/DynamicResourceCreator.h
+    include/AdminMenu.h
+    include/Authorization.h
+    include/UserCard.h
+    include/UserSelfEdit.h
 )
 
 set(PROJECT_SOURCES
@@ -32,10 +36,18 @@ set(PROJECT_SOURCES
     dbprovider.cpp
     UserProvider.cpp 
     DynamicResourceCreator.cpp
+    AdminMenu.cpp
+    Authorization.cpp
+    UserCard.cpp
+    UserSelfEdit.cpp
 )
 
 set(UI_FILES
     ui/FilmCatalog.ui
+    ui/AdminMenu.ui
+    ui/Authorization.ui
+    ui/UserCard.ui
+    ui/UserSelfEdit.ui
 )
 
 set(RESOURCES_FILES

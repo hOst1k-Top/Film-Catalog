@@ -1,6 +1,11 @@
 #pragma once
 
 #include <QtWidgets/QWidget>
+#include "UserProvider.h"
+#include "dbprovider.h"
+#include "AdminMenu.h"
+#include "UserSelfEdit.h"
+#include "Authorization.h"
 #include "../ui/ui_FilmCatalog.h"
 
 QT_BEGIN_NAMESPACE
@@ -14,6 +19,9 @@ class FilmCatalog : public QWidget
 public:
     FilmCatalog(QWidget *parent = nullptr);
     ~FilmCatalog();
+
+public slots:
+    void onAuthRequested();
 
 private:
     Ui::FilmCatalogClass *ui;

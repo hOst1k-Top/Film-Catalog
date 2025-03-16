@@ -2,4 +2,8 @@
     <qresource prefix="/icon">
         <file>icon.png</file>
     </qresource>
+    <qresource prefix="/buttons">
+        <file>admin.png</file>
+        <file>profile.png</file>
+    </qresource>
 </RCC>
