@@ -30,9 +30,18 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_2">
+      <widget class="QToolButton" name="adminmenu">
        <property name="text">
         <string/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::ArrowType::NoArrow</enum>
        </property>
       </widget>
      </item>

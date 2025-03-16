@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //a.setWindowIcon(QIcon(":/icon/icon.png"));
+    a.setWindowIcon(QIcon(":/icon/icon.png"));
     FilmCatalog w;
     a.setStyle("fusion");
     w.show();

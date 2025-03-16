@@ -22,25 +22,32 @@ qt_standard_project_setup()
 set(HEADERS_FILES
     include/FilmCatalog.h
     include/dbprovider.h
+    include/UserProvider.h
+    include/DynamicResourceCreator.h
 )
 
 set(PROJECT_SOURCES
     main.cpp
     FilmCatalog.cpp
     dbprovider.cpp
+    UserProvider.cpp 
+    DynamicResourceCreator.cpp
 )
 
 set(UI_FILES
     ui/FilmCatalog.ui
 )
 
-set(RESOURCES_FILES)
+set(RESOURCES_FILES
+    resources/catalog.qrc
+)
 
 qt_add_executable(FilmCatalog ${PROJECT_SOURCES} ${HEADERS_FILES} ${RESOURCES_FILES} ${UI_FILES})
 
 set_target_properties(FilmCatalog
     PROPERTIES
         WIN32_EXECUTABLE TRUE
+        MACOSX_BUNDLE ON
 )
 
 target_link_libraries(FilmCatalog
