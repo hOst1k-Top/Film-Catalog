@@ -23,7 +23,7 @@ public:
 	~CatalogItemAdder();
 
 signals:
-	void requestAdding(int id);
+	void requestAdding(int id, QString title);
 
 private:
 	QString filePath;

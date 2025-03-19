@@ -25,7 +25,8 @@ public:
 
 public slots:
     void onAuthRequested();
-    void onAddRequested(int id);
+    void onAddRequested(int id, QString title);
+    void filter(QString filter);
 
 signals:
     void RequestUpdateDisplay();
