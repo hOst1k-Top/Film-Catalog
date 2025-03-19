@@ -24,13 +24,23 @@ FilmCatalog::FilmCatalog(QWidget *parent)
         }
         else if(QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier) && UserProvider::getInstance()->getAdmin())
         {
-            // TODO: Inserting new value code
+            // TODO: Edit film menu
         }
         else
         {
-            // TODO: Display item
+            DisplayCatalog* display = new DisplayCatalog(item->data(Qt::UserRole).toInt());
+            display->show();
         }
         });
+    QObject::connect(ui->add, &QAbstractButton::clicked, [this]() {
+        CatalogItemAdder* adder = new CatalogItemAdder();
+        QObject::connect(adder, &CatalogItemAdder::requestAdding, this, &FilmCatalog::onAddRequested);
+        if (adder->exec())
+        {
+            return;
+        }
+        adder->deleteLater();
+    });
     SelectItems();
 }
 
@@ -48,6 +58,15 @@ FilmCatalog::~FilmCatalog()
 
 void FilmCatalog::onAddRequested(int id)
 {
+    QListWidgetItem* item = new QListWidgetItem(ui->display);
+    CatalogDisplayItem* card = new CatalogDisplayItem(id);
+    QObject::connect(this, &FilmCatalog::RequestUpdateDisplay, card, &CatalogDisplayItem::UpdateDisplay);
+    QObject::connect(this, &FilmCatalog::RequestDeleteByID, card, &CatalogDisplayItem::RequestDelete);
+    item->setData(Qt::UserRole, id);
+    item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+    item->setSizeHint(card->minimumSizeHint());
+    ui->display->addItem(item);
+    ui->display->setItemWidget(item, card);
 }
 
 void FilmCatalog::SelectItems()
@@ -62,7 +81,7 @@ void FilmCatalog::SelectItems()
         CatalogDisplayItem* card = new CatalogDisplayItem(id);
         QObject::connect(this, &FilmCatalog::RequestUpdateDisplay, card, &CatalogDisplayItem::UpdateDisplay);
         QObject::connect(this, &FilmCatalog::RequestDeleteByID, card, &CatalogDisplayItem::RequestDelete);
-        item->setData(Qt::UserRole, query.value(0).toString());
+        item->setData(Qt::UserRole, id);
         item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
         item->setSizeHint(card->minimumSizeHint());
         ui->display->addItem(item);

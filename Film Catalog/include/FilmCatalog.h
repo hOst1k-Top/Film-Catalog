@@ -7,6 +7,8 @@
 #include "UserSelfEdit.h"
 #include "Authorization.h"
 #include "CatalogDisplayItem.h"
+#include "DisplayCatalog.h"
+#include "CatalogItemAdder.h"
 #include "../ui/ui_FilmCatalog.h"
 
 QT_BEGIN_NAMESPACE

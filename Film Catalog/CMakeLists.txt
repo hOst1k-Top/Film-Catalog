@@ -29,6 +29,8 @@ set(HEADERS_FILES
     include/UserCard.h
     include/UserSelfEdit.h
     include/CatalogDisplayItem.h
+    include/DisplayCatalog.h
+    include/CatalogItemAdder.h
 )
 
 set(PROJECT_SOURCES
@@ -42,6 +44,8 @@ set(PROJECT_SOURCES
     UserCard.cpp
     UserSelfEdit.cpp
     CatalogDisplayItem.cpp
+    DisplayCatalog.cpp
+    CatalogItemAdder.cpp
 )
 
 set(UI_FILES
@@ -51,6 +55,8 @@ set(UI_FILES
     ui/UserCard.ui
     ui/UserSelfEdit.ui
     ui/CatalogDisplayItem.ui
+    ui/DisplayCatalog.ui
+    ui/CatalogItemAdder.ui
 )
 
 set(RESOURCES_FILES

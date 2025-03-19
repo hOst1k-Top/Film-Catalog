@@ -85,6 +85,13 @@
    <item>
     <widget class="QListWidget" name="display"/>
    </item>
+   <item>
+    <widget class="QPushButton" name="add">
+     <property name="text">
+      <string>Add New Film</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
