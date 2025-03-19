@@ -6,6 +6,7 @@
 #include "AdminMenu.h"
 #include "UserSelfEdit.h"
 #include "Authorization.h"
+#include "CatalogDisplayItem.h"
 #include "../ui/ui_FilmCatalog.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,7 +23,14 @@ public:
 
 public slots:
     void onAuthRequested();
+    void onAddRequested(int id);
+
+signals:
+    void RequestUpdateDisplay();
+    void RequestDeleteByID(int id);
 
 private:
+    void SelectItems();
     Ui::FilmCatalogClass *ui;
+    const int PageCount = 25;
 };

@@ -6,4 +6,8 @@
         <file>admin.png</file>
         <file>profile.png</file>
     </qresource>
+    <qresource prefix="/film">
+        <file>time.png</file>
+        <file>genres.png</file>
+    </qresource>
 </RCC>

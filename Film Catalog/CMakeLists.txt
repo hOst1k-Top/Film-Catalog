@@ -28,6 +28,7 @@ set(HEADERS_FILES
     include/Authorization.h
     include/UserCard.h
     include/UserSelfEdit.h
+    include/CatalogDisplayItem.h
 )
 
 set(PROJECT_SOURCES
@@ -40,6 +41,7 @@ set(PROJECT_SOURCES
     Authorization.cpp
     UserCard.cpp
     UserSelfEdit.cpp
+    CatalogDisplayItem.cpp
 )
 
 set(UI_FILES
@@ -48,6 +50,7 @@ set(UI_FILES
     ui/Authorization.ui
     ui/UserCard.ui
     ui/UserSelfEdit.ui
+    ui/CatalogDisplayItem.ui
 )
 
 set(RESOURCES_FILES

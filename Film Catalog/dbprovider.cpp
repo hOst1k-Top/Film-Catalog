@@ -26,6 +26,10 @@ DBProvider::DBProvider(QString dbName)
     {
         qWarning() << create.lastError().text();
     }
+    if (!create.exec("CREATE TABLE IF NOT EXISTS \"Films\" (    \"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"Path\" TEXT NOT NULL DEFAULT 'posters', \"PosterFile\" TEXT NOT NULL,    \"Title\" TEXT NOT NULL,    \"Release\" TEXT NOT NULL,    \"Duration\" INTEGER NOT NULL,    \"Description\" TEXT NOT NULL,    \"Director\" TEXT NOT NULL,    \"Actors\" TEXT NOT NULL,    \"Studio\" TEXT NOT NULL, \"Genres\"	TEXT NOT NULL);CREATE INDEX \"films_title_index\" ON \"Films\"(\"Title\");"))
+    {
+        qWarning() << create.lastError().text();
+    }
     if (!create.exec("SELECT name FROM sqlite_master WHERE type='table';")) qWarning() << create.lastError().text();
     while (create.next())
     {
@@ -33,7 +37,7 @@ DBProvider::DBProvider(QString dbName)
         QSqlQuery getColumns(db);
         if (!getColumns.exec(QString("PRAGMA table_info(%1);").arg(tablename))) qWarning() << getColumns.lastError().text();
         QMap<QString, int> columns;
-        while (getColumns.next()) columns.insert(getColumns.value(1).toString(), Qt::UserRole + getColumns.value(0).toInt());
+        while (getColumns.next()) columns.insert(getColumns.value(1).toString(), getColumns.value(0).toInt());
         header.insert(tablename, columns);
     }
 }
