@@ -16,13 +16,36 @@ FilmCatalog::FilmCatalog(QWidget *parent)
         edit->show();
         });
     QObject::connect(ui->display, &QListWidget::itemDoubleClicked, [&](QListWidgetItem* item) {
+#ifdef SOCIAL
         if (QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) && UserProvider::getInstance()->getAdmin())
+#else
+        if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier))
+#endif // SOCIAL
         {
-            emit RequestDeleteByID(item->data(Qt::UserRole).toInt());
+            int id = item->data(Qt::UserRole).toInt();
+            emit RequestDeleteByID(id);
+            bool findToDelete = false;
+            for (int page = 0; page < pages.length(); ++page)
+            {
+                if (findToDelete == true) break;
+                for (int title = 0; title < pages[page].length(); ++title)
+                {
+                    if (title == id)
+                    {
+                        pages[page].removeAt(title);
+                        findToDelete = true;
+                        break;
+                    }
+                }
+            }
             ui->display->removeItemWidget(item);
             delete item;
         }
-        else if(QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier) && UserProvider::getInstance()->getAdmin())
+#ifdef SOCIAL
+        else if (QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier) && UserProvider::getInstance()->getAdmin())
+#else
+        else if(QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier))
+#endif // SOCIAL
         {
             // TODO: Edit film menu
         }
@@ -64,6 +87,19 @@ FilmCatalog::FilmCatalog(QWidget *parent)
             ui->display->setItemWidget(item, card);
         }
     });
+#ifndef SOCIAL
+    ui->adminmenu->hide();
+    ui->selfedit->hide();
+#endif // !SOCIAL
+#ifndef FILTER
+    ui->filter->hide();
+#endif // !FILTER
+#ifndef PAGES
+    ui->currentPage->hide();
+    ui->leftArrow->hide();
+    ui->rightArrow->hide();
+#endif // !PAGES
+
     SelectItems();
 }
 
@@ -115,20 +151,30 @@ void FilmCatalog::SelectItems()
     query.prepare("SELECT id,Title FROM Films");
     if (!query.exec()) qWarning() << query.lastError().text();
     while (query.next()) addItemToPage(query.value(0).toInt(), query.value(1).toString());
-
+#ifdef PAGES
     for (auto [id, title] : pages[0])
+    
+#else
+    for (auto page : pages)
     {
-        QListWidgetItem* item = new QListWidgetItem(ui->display);
-        CatalogDisplayItem* card = new CatalogDisplayItem(id);
-        QObject::connect(this, &FilmCatalog::RequestUpdateDisplay, card, &CatalogDisplayItem::UpdateDisplay);
-        QObject::connect(this, &FilmCatalog::RequestDeleteByID, card, &CatalogDisplayItem::RequestDelete);
-        item->setData(Qt::UserRole, id);
-        item->setData(Qt::UserRole + 1, title);
-        item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
-        item->setSizeHint(card->minimumSizeHint());
-        ui->display->addItem(item);
-        ui->display->setItemWidget(item, card);
+        for(auto [id, title] : page)
+#endif // PAGES
+        {
+            QListWidgetItem* item = new QListWidgetItem(ui->display);
+            CatalogDisplayItem* card = new CatalogDisplayItem(id);
+            QObject::connect(this, &FilmCatalog::RequestUpdateDisplay, card, &CatalogDisplayItem::UpdateDisplay);
+            QObject::connect(this, &FilmCatalog::RequestDeleteByID, card, &CatalogDisplayItem::RequestDelete);
+            item->setData(Qt::UserRole, id);
+            item->setData(Qt::UserRole + 1, title);
+            item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+            item->setSizeHint(card->minimumSizeHint());
+            ui->display->addItem(item);
+            ui->display->setItemWidget(item, card);
+        }
+#ifndef PAGES
     }
+#endif // !PAGES
+
 }
 
 void FilmCatalog::addItemToPage(int id, QString title)
