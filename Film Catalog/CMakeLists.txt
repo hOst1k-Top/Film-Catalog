@@ -63,6 +63,22 @@ set(RESOURCES_FILES
     resources/catalog.qrc
 )
 
+#[==[
+Options:
+add_compile_definitions(AUTHORIZATION) - Enable authorization to the app
+add_compile_definitions(SOCIAL) - Enable social function (admin menu and selfedit)
+add_compile_definitions(FILTER) - Enable filter feature
+add_compile_definitions(PAGES) - Enable part-loading list
+add_compile_definitions(FAVORITE) - Enable favorite function
+add_compile_definitions(BUCKET) - Enable bucket feature
+]==] 
+
+add_compile_definitions(AUTHORIZATION)
+add_compile_definitions(SOCIAL)
+add_compile_definitions(FILTER)
+add_compile_definitions(PAGES)
+add_compile_definitions(FAVORITE)
+
 qt_add_executable(FilmCatalog ${PROJECT_SOURCES} ${HEADERS_FILES} ${RESOURCES_FILES} ${UI_FILES})
 
 set_target_properties(FilmCatalog

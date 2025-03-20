@@ -158,5 +158,38 @@
  <resources>
   <include location="../resources/catalog.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>rightArrow</sender>
+   <signal>clicked()</signal>
+   <receiver>currentPage</receiver>
+   <slot>stepUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>372</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>497</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leftArrow</sender>
+   <signal>clicked()</signal>
+   <receiver>currentPage</receiver>
+   <slot>stepDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>297</x>
+     <y>509</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>332</x>
+     <y>511</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

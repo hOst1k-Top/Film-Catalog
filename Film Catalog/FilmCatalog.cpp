@@ -16,10 +16,10 @@ FilmCatalog::FilmCatalog(QWidget *parent)
         edit->show();
         });
     QObject::connect(ui->display, &QListWidget::itemDoubleClicked, [&](QListWidgetItem* item) {
-#ifdef SOCIAL
+#if defined(SOCIAL) && defined(AUTHORIZATION)
         if (QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) && UserProvider::getInstance()->getAdmin())
 #else
-        if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier))
+        if (QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier))
 #endif // SOCIAL
         {
             int id = item->data(Qt::UserRole).toInt();
@@ -41,14 +41,24 @@ FilmCatalog::FilmCatalog(QWidget *parent)
             ui->display->removeItemWidget(item);
             delete item;
         }
-#ifdef SOCIAL
+#if defined(SOCIAL) && defined(AUTHORIZATION)
         else if (QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier) && UserProvider::getInstance()->getAdmin())
 #else
-        else if(QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier))
+        else if (QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier))
 #endif // SOCIAL
         {
             // TODO: Edit film menu
         }
+#ifdef FAVORITE
+#if defined(SOCIAL) && defined(AUTHORIZATION)
+        else if (QApplication::keyboardModifiers().testFlag(Qt::AltModifier) && UserProvider::getInstance()->getAdmin())
+#else
+        else if (QApplication::keyboardModifiers().testFlag(Qt::AltModifier))
+#endif // SOCIAL
+        {
+            // TODO: Fovorite 
+        }
+#endif // FAVORITE
         else
         {
             DisplayCatalog* display = new DisplayCatalog(item->data(Qt::UserRole).toInt());
@@ -87,7 +97,7 @@ FilmCatalog::FilmCatalog(QWidget *parent)
             ui->display->setItemWidget(item, card);
         }
     });
-#ifndef SOCIAL
+#if !defined(SOCIAL) && !defined(AUTHORIZATION)
     ui->adminmenu->hide();
     ui->selfedit->hide();
 #endif // !SOCIAL
@@ -99,7 +109,12 @@ FilmCatalog::FilmCatalog(QWidget *parent)
     ui->leftArrow->hide();
     ui->rightArrow->hide();
 #endif // !PAGES
-
+#ifdef AUTHORIZATION
+    if (!UserProvider::getInstance()->getAdmin())
+    {
+        ui->add->hide();
+    }
+#endif // AUTHORIZATION
     SelectItems();
 }
 
