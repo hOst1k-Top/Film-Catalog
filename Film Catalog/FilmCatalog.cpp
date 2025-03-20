@@ -42,6 +42,28 @@ FilmCatalog::FilmCatalog(QWidget *parent)
         adder->deleteLater();
     });
     QObject::connect(ui->filter, &QLineEdit::textChanged, this, &FilmCatalog::filter);
+    QObject::connect(ui->currentPage, &QSpinBox::valueChanged, this, [&](int index) {
+        while (ui->display->count())
+        {
+            QListWidgetItem* itm = ui->display->takeItem(0);
+            ui->display->removeItemWidget(itm);
+            delete itm;
+        }
+        
+        for(auto [id, title] : pages[index - 1])
+        {
+            QListWidgetItem* item = new QListWidgetItem(ui->display);
+            CatalogDisplayItem* card = new CatalogDisplayItem(id);
+            QObject::connect(this, &FilmCatalog::RequestUpdateDisplay, card, &CatalogDisplayItem::UpdateDisplay);
+            QObject::connect(this, &FilmCatalog::RequestDeleteByID, card, &CatalogDisplayItem::RequestDelete);
+            item->setData(Qt::UserRole, id);
+            item->setData(Qt::UserRole + 1, title);
+            item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+            item->setSizeHint(card->minimumSizeHint());
+            ui->display->addItem(item);
+            ui->display->setItemWidget(item, card);
+        }
+    });
     SelectItems();
 }
 
@@ -92,18 +114,28 @@ void FilmCatalog::SelectItems()
     QSqlQuery query(DBProvider::getInstance()->getDB());
     query.prepare("SELECT id,Title FROM Films");
     if (!query.exec()) qWarning() << query.lastError().text();
-    while (query.next())
+    while (query.next()) addItemToPage(query.value(0).toInt(), query.value(1).toString());
+
+    for (auto [id, title] : pages[0])
     {
-        int id = query.value(0).toInt();
         QListWidgetItem* item = new QListWidgetItem(ui->display);
         CatalogDisplayItem* card = new CatalogDisplayItem(id);
         QObject::connect(this, &FilmCatalog::RequestUpdateDisplay, card, &CatalogDisplayItem::UpdateDisplay);
         QObject::connect(this, &FilmCatalog::RequestDeleteByID, card, &CatalogDisplayItem::RequestDelete);
         item->setData(Qt::UserRole, id);
-        item->setData(Qt::UserRole + 1, query.value(1).toString());
+        item->setData(Qt::UserRole + 1, title);
         item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
         item->setSizeHint(card->minimumSizeHint());
         ui->display->addItem(item);
         ui->display->setItemWidget(item, card);
     }
+}
+
+void FilmCatalog::addItemToPage(int id, QString title)
+{
+    if (pages.isEmpty() || pages.last().size() >= PAGE_SIZE) {
+        pages.append(QList<QPair<int, QString>>());
+    }
+    pages.last().append(qMakePair(id, title));
+    ui->currentPage->setMaximum(pages.length());
 }

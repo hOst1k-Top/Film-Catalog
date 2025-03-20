@@ -34,6 +34,8 @@ signals:
 
 private:
     void SelectItems();
+    void addItemToPage(int id, QString title);
+    QVector<QList<QPair<int, QString>>> pages;
     Ui::FilmCatalogClass *ui;
-    const int PageCount = 25;
+    const int PAGE_SIZE = 10;
 };
