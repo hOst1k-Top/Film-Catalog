@@ -30,6 +30,12 @@ DBProvider::DBProvider(QString dbName)
     {
         qWarning() << create.lastError().text();
     }
+#ifdef FAVORITE
+    if (!create.exec("CREATE TABLE \"Favorite\" ( \"favid\" INTEGER NOT NULL, \"favfilm\" INTEGER NOT NULL, \"user\" TEXT NOT NULL, PRIMARY KEY(\"favid\" AUTOINCREMENT), FOREIGN KEY(\"favfilm\") REFERENCES \"Films\"(\"id\") ON UPDATE CASCADE ON DELETE CASCADE, FOREIGN KEY(\"user\") REFERENCES \"users\"(\"Login\") ON UPDATE CASCADE ON DELETE CASCADE)"))
+    {
+        qWarning() << create.lastError().text();
+    }
+#endif // FAVORITE
     if (!create.exec("SELECT name FROM sqlite_master WHERE type='table';")) qWarning() << create.lastError().text();
     while (create.next())
     {

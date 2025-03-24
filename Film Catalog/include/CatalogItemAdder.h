@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include "DynamicResourceCreator.h"
 #include "dbprovider.h"
+#include "FilmCatalog.h"
 #include "../ui/ui_CatalogItemAdder.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,7 +24,7 @@ public:
 	~CatalogItemAdder();
 
 signals:
-	void requestAdding(int id, QString title);
+	void requestAdding(int id, QString title, QString release, QStringList genres);
 
 private:
 	QString filePath;

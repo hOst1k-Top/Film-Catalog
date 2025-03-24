@@ -83,6 +83,16 @@
     </widget>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QComboBox" name="releaseFilter"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="genreFilter"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QListWidget" name="display"/>
    </item>
    <item>

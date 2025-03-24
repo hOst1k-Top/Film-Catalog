@@ -1,4 +1,5 @@
 #include "include/CatalogDisplayItem.h"
+#include "include/UserProvider.h"
 
 CatalogDisplayItem::CatalogDisplayItem(int id, QWidget *parent)
 	: QWidget(parent)
@@ -17,7 +18,7 @@ void CatalogDisplayItem::UpdateDisplay()
 {
 	QSqlQuery query(DBProvider::getInstance()->getDB());
 	QMap<QString, int> columns = DBProvider::getInstance()->getColumns("Films");
-	query.prepare(QString("SELECT * FROM Films WHERE id = :id").arg(columns.keys().join(",")));
+	query.prepare(QString("SELECT * FROM Films WHERE id = :id"));
 	query.bindValue(":id", catalogID);
 	if (!query.exec()) 
 	{
@@ -33,6 +34,14 @@ void CatalogDisplayItem::UpdateDisplay()
 		ui->time->setText(GetTime(query.value(columns["Duration"]).toInt()));
 		ui->genre->setText(query.value(columns["Genres"]).toString());
 	}
+#ifdef FAVORITE
+	query.prepare("SELECT favid FROM Favorite WHERE user = :usr AND favfilm = :id");
+	query.bindValue(":usr", UserProvider::getInstance()->getLogin());
+	query.bindValue(":id", catalogID);
+	if (!query.exec()) qWarning() << "Ошибка выполнения запроса:" << query.lastError().text();
+	else if (!query.next()) ui->favorite->hide();
+	else ui->favorite->show();
+#endif // FAVORITE
 }
 
 void CatalogDisplayItem::RequestDelete(int id)

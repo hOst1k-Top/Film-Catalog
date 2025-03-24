@@ -9,5 +9,6 @@
     <qresource prefix="/film">
         <file>time.png</file>
         <file>genres.png</file>
+        <file>like.png</file>
     </qresource>
 </RCC>

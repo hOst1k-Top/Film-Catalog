@@ -68,6 +68,7 @@ Options:
 add_compile_definitions(AUTHORIZATION) - Enable authorization to the app
 add_compile_definitions(SOCIAL) - Enable social function (admin menu and selfedit)
 add_compile_definitions(FILTER) - Enable filter feature
+add_compile_definitions(ADVANCEDFILTER) - enable advanced filtering
 add_compile_definitions(PAGES) - Enable part-loading list
 add_compile_definitions(FAVORITE) - Enable favorite function
 add_compile_definitions(BUCKET) - Enable bucket feature
@@ -76,6 +77,7 @@ add_compile_definitions(BUCKET) - Enable bucket feature
 add_compile_definitions(AUTHORIZATION)
 add_compile_definitions(SOCIAL)
 add_compile_definitions(FILTER)
+add_compile_definitions(ADVANCEDFILTER)
 add_compile_definitions(PAGES)
 add_compile_definitions(FAVORITE)
 

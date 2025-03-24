@@ -15,6 +15,14 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class FilmCatalogClass; };
 QT_END_NAMESPACE
 
+struct Movie
+{
+    int id;
+    QString title;
+    QString release;
+    QStringList genres;
+};
+
 class FilmCatalog : public QWidget
 {
     Q_OBJECT
@@ -25,8 +33,8 @@ public:
 
 public slots:
     void onAuthRequested();
-    void onAddRequested(int id, QString title);
-    void filter(QString filter);
+    void onAddRequested(int id, QString title, QString release, QStringList genres);
+    void filter();
 
 signals:
     void RequestUpdateDisplay();
@@ -34,8 +42,12 @@ signals:
 
 private:
     void SelectItems();
-    void addItemToPage(int id, QString title);
-    QVector<QList<QPair<int, QString>>> pages;
+    void GetFilters();
+    void addItemToPage(int id, const QString& title, QString release, const QStringList& genres);
+#ifdef FAVORITE
+    QList<int> favoriteList;
+#endif // FAVORITE
+    QVector<QList<Movie>> pages;
     Ui::FilmCatalogClass *ui;
     const int PAGE_SIZE = 10;
 };

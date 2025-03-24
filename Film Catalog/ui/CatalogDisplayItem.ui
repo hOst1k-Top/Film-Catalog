@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>786</width>
-    <height>186</height>
+    <width>812</width>
+    <height>217</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,7 +89,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string/>
+          <string notr="true"/>
          </property>
          <property name="pixmap">
           <pixmap resource="../resources/catalog.qrc">:/film/genres.png</pixmap>
@@ -104,6 +104,16 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="favorite">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../resources/catalog.qrc">:/film/like.png</pixmap>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

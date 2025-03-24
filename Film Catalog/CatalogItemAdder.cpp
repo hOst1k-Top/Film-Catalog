@@ -49,7 +49,7 @@ CatalogItemAdder::CatalogItemAdder(QWidget *parent)
 				qWarning() << insertQuery.lastError().text();
 				return;
 			}
-			emit requestAdding(insertQuery.lastInsertId().toInt(), ui->title->text());
+			emit requestAdding(insertQuery.lastInsertId().toInt(), ui->title->text(), QString::number(ui->release->value()), ui->genres->text().split(',', Qt::SkipEmptyParts));
 			accept();
 		}
 	});
