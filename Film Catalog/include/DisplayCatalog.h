@@ -17,10 +17,15 @@ class DisplayCatalog : public QMainWindow
 	Q_OBJECT
 
 public:
-	DisplayCatalog(int id, QWidget *parent = nullptr);
+	DisplayCatalog(int id, bool edit = false, QWidget *parent = nullptr);
 	~DisplayCatalog();
+
+signals:
+	void requestUpdateDisplay();
 
 private:
 	QString GetTime(int seconds);
+	int catalogID;
+	QString file;
 	Ui::DisplayCatalogClass *ui;
 };

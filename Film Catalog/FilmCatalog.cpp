@@ -47,7 +47,9 @@ FilmCatalog::FilmCatalog(QWidget *parent)
         else if (QApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ControlModifier))
 #endif // SOCIAL
         {
-            // TODO: Edit film menu
+            DisplayCatalog* display = new DisplayCatalog(item->data(Qt::UserRole).toInt(), true);
+            QObject::connect(display, &DisplayCatalog::requestUpdateDisplay, this, &FilmCatalog::RequestUpdateDisplay);
+            display->show();
         }
 #if defined(FAVORITE) && defined(SOCIAL) && defined(AUTHORIZATION)
         else if (QApplication::keyboardModifiers().testFlag(Qt::AltModifier) && UserProvider::getInstance()->getAdmin())

@@ -39,16 +39,13 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="titleLabel">
+         <widget class="QLineEdit" name="title">
           <property name="font">
            <font>
             <pointsize>20</pointsize>
            </font>
           </property>
-          <property name="text">
-           <string notr="true">Title</string>
-          </property>
-          <property name="wordWrap">
+          <property name="readOnly">
            <bool>true</bool>
           </property>
          </widget>
@@ -88,6 +85,9 @@
             <property name="text">
              <string/>
             </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -102,7 +102,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="director"/>
+           <widget class="QLineEdit" name="director">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -116,7 +120,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="actors"/>
+           <widget class="QLineEdit" name="actors">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -130,7 +138,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="studio"/>
+           <widget class="QLineEdit" name="studio">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -144,7 +156,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="genres"/>
+           <widget class="QLineEdit" name="genres">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -163,6 +179,20 @@
      <widget class="QPlainTextEdit" name="description">
       <property name="readOnly">
        <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="accept">
+      <property name="text">
+       <string>Accept changes</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="posterButton">
+      <property name="text">
+       <string>Upload Poster</string>
       </property>
      </widget>
     </item>
