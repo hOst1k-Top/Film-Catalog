@@ -68,6 +68,20 @@ QPixmap DynamicResourceCreator::findFile(const QString& pathName, const QString&
     return QPixmap();
 }
 
+QStringList DynamicResourceCreator::displayResourcesInPath(const QString& pathName) const
+{
+    QString fullPath = getFullPath(pathName);
+    QDir dir(fullPath);
+
+    if (!dir.exists()) {
+        qWarning() << "Path does not exist:" << fullPath;
+        return {};
+    }
+
+    QStringList files = dir.entryList(QDir::Files);
+    return files;
+}
+
 QString DynamicResourceCreator::getFullPath(const QString& pathName) const
 {
     return QDir::currentPath() + "/" + prefix + "_" + pathName;

@@ -25,6 +25,7 @@ public:
     bool removeFileFromPath(const QString& pathName, const QString& fileName);
     QStringList getFilesInPath(const QString& pathName) const;
     QPixmap findFile(const QString& pathName, const QString& fileName) const;
+    QStringList displayResourcesInPath(const QString& pathName) const;
 
 private:
     explicit DynamicResourceCreator(QObject* parent = nullptr);
