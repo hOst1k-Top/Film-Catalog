@@ -7,43 +7,56 @@ DBProvider *DBProvider::getInstance(QString dbName)
     return instance;
 }
 
-QMap<QString, int> DBProvider::getColumns(QString tablename)
-{
-    if (getTables().contains(tablename))
-    {
-        return header[tablename];
-    }
-    return QMap<QString, int>();
-}
-
 DBProvider::DBProvider(QString dbName)
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbName);
-    if(!db.open()) if (!db.open()) qWarning() << db.lastError().text();
+    if (!db.open()) if (!db.open()) qWarning() << db.lastError().text();
+    QFile file(":/db/scheme.sql");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Failed to open file:" << file.errorString();
+        return;
+    }
+
+    QTextStream in(&file);
+
     QSqlQuery create(db);
-    if (!create.exec("CREATE TABLE IF NOT EXISTS \"users\" ( \"Login\" TEXT NOT NULL UNIQUE, \"Hash\" TEXT NOT NULL, \"Admin\" INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(\"Login\"));"))
-    {
-        qWarning() << create.lastError().text();
+    QString currentStatement;
+    bool insideTrigger = false;
+
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+
+        if (line.isEmpty() || line.startsWith("--")) {
+            continue;
+        }
+
+        if (line.startsWith("CREATE TRIGGER", Qt::CaseInsensitive)) {
+            insideTrigger = true;
+        }
+
+        currentStatement += line + " ";
+
+        if (insideTrigger) {
+            if (line.toUpper().contains("END;")) {
+                insideTrigger = false;
+                if (!create.exec(currentStatement)) {
+                    qWarning() << "SQL Execute Error (TRIGGER):" << create.lastError().text();
+                    qWarning() << "SQL:" << currentStatement;
+                    return;
+                }
+                currentStatement.clear();
+            }
+        }
+        else if (line.endsWith(";")) {
+            if (!create.exec(currentStatement)) {
+                qWarning() << "SQL: Execute Error" << create.lastError().text();
+                qWarning() << "SQL:" << currentStatement;
+                return;
+            }
+            currentStatement.clear();
+        }
     }
-    if (!create.exec("CREATE TABLE IF NOT EXISTS \"Films\" (    \"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"Path\" TEXT NOT NULL DEFAULT 'posters', \"PosterFile\" TEXT NOT NULL,    \"Title\" TEXT NOT NULL,    \"Release\" TEXT NOT NULL,    \"Duration\" INTEGER NOT NULL,    \"Description\" TEXT NOT NULL,    \"Director\" TEXT NOT NULL,    \"Actors\" TEXT NOT NULL,    \"Studio\" TEXT NOT NULL, \"Genres\"	TEXT NOT NULL);CREATE INDEX \"films_title_index\" ON \"Films\"(\"Title\");"))
-    {
-        qWarning() << create.lastError().text();
-    }
-#ifdef FAVORITE
-    if (!create.exec("CREATE TABLE \"Favorite\" ( \"favid\" INTEGER NOT NULL, \"favfilm\" INTEGER NOT NULL, \"user\" TEXT NOT NULL, PRIMARY KEY(\"favid\" AUTOINCREMENT), FOREIGN KEY(\"favfilm\") REFERENCES \"Films\"(\"id\") ON UPDATE CASCADE ON DELETE CASCADE, FOREIGN KEY(\"user\") REFERENCES \"users\"(\"Login\") ON UPDATE CASCADE ON DELETE CASCADE)"))
-    {
-        qWarning() << create.lastError().text();
-    }
-#endif // FAVORITE
-    if (!create.exec("SELECT name FROM sqlite_master WHERE type='table';")) qWarning() << create.lastError().text();
-    while (create.next())
-    {
-        QString tablename = create.value(0).toString();
-        QSqlQuery getColumns(db);
-        if (!getColumns.exec(QString("PRAGMA table_info(%1);").arg(tablename))) qWarning() << getColumns.lastError().text();
-        QMap<QString, int> columns;
-        while (getColumns.next()) columns.insert(getColumns.value(1).toString(), getColumns.value(0).toInt());
-        header.insert(tablename, columns);
-    }
+
+    file.close();
 }

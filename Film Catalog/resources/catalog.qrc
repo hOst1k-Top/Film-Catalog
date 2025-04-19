@@ -11,4 +11,7 @@
         <file>genres.png</file>
         <file>like.png</file>
     </qresource>
+    <qresource prefix="/db">
+        <file>scheme.sql</file>
+    </qresource>
 </RCC>
