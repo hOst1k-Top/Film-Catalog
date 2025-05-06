@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AdminMenu</name>
     <message>
@@ -60,47 +60,47 @@
     <message>
         <location filename="../Authorization.cpp" line="28"/>
         <source>Failed to login!</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось войти!</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="29"/>
         <source>Account created</source>
-        <translation type="unfinished"></translation>
+        <translation>Аккаунт создан</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="29"/>
         <source>Congratulations! The account was successfully created.</source>
-        <translation type="unfinished"></translation>
+        <translation>Поздравляем! Аккаунт успешно создан.</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="31"/>
         <source>Failed to register a user</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось зарегестрировать пользователя</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="31"/>
         <source>A user with this login already exists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь с этим логином уже существует.</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="39"/>
         <source>Login Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка входа</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="39"/>
         <source>It appears that no such user exists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Кажется, такого пользователя не существует.</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="55"/>
         <source>Error!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка!</translation>
     </message>
     <message>
         <location filename="../Authorization.cpp" line="55"/>
         <source>Wrong Password!</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильный пароль!</translation>
     </message>
 </context>
 <context>
