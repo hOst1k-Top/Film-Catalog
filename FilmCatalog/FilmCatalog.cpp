@@ -224,6 +224,7 @@ void FilmCatalog::SelectItems()
     query.prepare("SELECT id,Title,Release,Genres FROM Films");
     if (!query.exec()) qWarning() << query.lastError().text();
     while (query.next()) addItemToPage(query.value(0).toInt(), query.value(1).toString(),query.value(2).toString(), query.value(3).toString().split(",", Qt::SkipEmptyParts));
+    if (pages.isEmpty()) return;
     GetFilters();
 #ifdef PAGES
     for (auto movie : pages[0])   
