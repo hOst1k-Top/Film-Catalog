@@ -27,5 +27,5 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"Admin"	INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY("Login")
 );
-CREATE INDEX "films_title_index" ON "Films"("Title");
+CREATE INDEX IF NOT EXISTS "films_title_index" ON "Films"("Title");
 COMMIT;
