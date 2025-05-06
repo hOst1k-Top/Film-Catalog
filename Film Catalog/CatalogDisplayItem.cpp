@@ -17,7 +17,6 @@ CatalogDisplayItem::~CatalogDisplayItem()
 void CatalogDisplayItem::UpdateDisplay()
 {
 	QSqlQuery query(DBProvider::getInstance()->getDB());
-	QMap<QString, int> columns = DBProvider::getInstance()->getColumns("Films");
 	query.prepare(QString("SELECT * FROM Films WHERE id = :id"));
 	query.bindValue(":id", catalogID);
 	if (!query.exec()) 
@@ -27,18 +26,18 @@ void CatalogDisplayItem::UpdateDisplay()
 	}
 	if (query.first())
 	{
-		QPixmap pix = DynamicResourceCreator::getInstance()->findFile(query.value(columns["Path"]).toString(), query.value(columns["PosterFile"]).toString());
+		QPixmap pix = DynamicResourceCreator::getInstance()->findFile(query.value(1).toString(), query.value(2).toString());
 		pix = pix.scaled(90, 150, Qt::KeepAspectRatio);
 		ui->poster->setPixmap(pix);
-		ui->title->setText(query.value(columns["Title"]).toString());
-		ui->time->setText(GetTime(query.value(columns["Duration"]).toInt()));
-		ui->genre->setText(query.value(columns["Genres"]).toString());
+		ui->title->setText(query.value(3).toString());
+		ui->time->setText(GetTime(query.value(5).toInt()));
+		ui->genre->setText(query.value(10).toString());
 	}
 #ifdef FAVORITE
 	query.prepare("SELECT favid FROM Favorite WHERE user = :usr AND favfilm = :id");
 	query.bindValue(":usr", UserProvider::getInstance()->getLogin());
 	query.bindValue(":id", catalogID);
-	if (!query.exec()) qWarning() << "Ошибка выполнения запроса:" << query.lastError().text();
+	if (!query.exec()) qWarning() << "Query Execute Error:" << query.lastError().text();
 	else if (!query.next()) ui->favorite->hide();
 	else ui->favorite->show();
 #endif // FAVORITE

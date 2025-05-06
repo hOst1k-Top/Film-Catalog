@@ -21,6 +21,5 @@ public:
 
 private:
     DBProvider(QString dbName);
-    static DBProvider* instance;
     QSqlDatabase db;
 };

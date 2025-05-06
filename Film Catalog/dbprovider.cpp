@@ -1,10 +1,9 @@
 #include "include/dbprovider.h"
-DBProvider* DBProvider::instance = nullptr;
 
 DBProvider *DBProvider::getInstance(QString dbName)
 {
-    if (instance == nullptr) instance = new DBProvider(dbName);
-    return instance;
+    static DBProvider instance(dbName);
+    return &instance;
 }
 
 DBProvider::DBProvider(QString dbName)

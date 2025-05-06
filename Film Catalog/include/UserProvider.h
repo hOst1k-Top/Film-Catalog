@@ -17,7 +17,6 @@ public:
 	void setAdmin(bool AdminRights) { isAdmin = AdminRights; };
 
 private:
-	static UserProvider* instance;
 	QString login;
 	bool isAdmin = 0;
 };
